@@ -12,7 +12,7 @@ const CategoryPage = () => {
     const [categoriesPerPage] = useState(6);
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const token = localStorage.getItem('token');
+    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
     console.log(selectedCategories);
     // Generate mock categories data
     const generateCategoriesData = () => {

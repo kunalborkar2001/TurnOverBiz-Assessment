@@ -30,9 +30,12 @@ const RegisterPage = () => {
             // Call the register function with the formData
             const response = await register(formData);
             if (response.status == 201) {
-                localStorage.setItem("email", response?.data?.user.email);
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem("email", response?.data?.user.email);
+                }
+
                 router.push('/EmailVerification')
-                
+
             }
             // Optionally, redirect to another page after successful registration
         } catch (error) {
@@ -101,7 +104,7 @@ const RegisterPage = () => {
                 </div>
             </div>
 
-            
+
         </>
     )
 }

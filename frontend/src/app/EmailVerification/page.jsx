@@ -72,7 +72,8 @@ const EmailVerification = () => {
     }
 
     useEffect(() => {
-        setMaskMail(maskEmail(localStorage.getItem("email")))
+        const email = typeof localStorage !== 'undefined' ? localStorage.getItem('email') : null;
+        setMaskMail(maskEmail(email));
     }, [])
 
     return (

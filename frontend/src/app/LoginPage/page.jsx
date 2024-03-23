@@ -34,7 +34,9 @@ const LoginPage = () => {
         try {
             const response = await login(formData)
             if (response.status == 200) {
-                localStorage.setItem("token", response?.data?.token);
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem("token", response?.data?.token);
+                }
 
                 router.push("/CategoryPage")
             }
