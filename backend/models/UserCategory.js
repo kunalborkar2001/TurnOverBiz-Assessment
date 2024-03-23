@@ -2,21 +2,29 @@
 
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database');
-const User = require('./User');
-const Category = require('./Category');
 
-const UserCategory = sequelize.define('UserCategory', {
-  userId: {
-    type: DataTypes.INTEGER,
+
+const UserCategory = sequelize.define(
+  'UserCategory', {
+  userEmail: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  categoryId: {
-    type: DataTypes.INTEGER,
+  category: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-});
+},
+);
 
-User.belongsToMany(Category, { through: UserCategory });
-Category.belongsToMany(User, { through: UserCategory });
+UserCategory.sync({ alter: true })
+  .then(() => {
+    console.log("The table for the User model was synchronized successfully!");
+  })
+  .catch((error) => {
+    console.error("Error synchronizing User model:", error);
+  });
+
+
 
 module.exports = UserCategory;

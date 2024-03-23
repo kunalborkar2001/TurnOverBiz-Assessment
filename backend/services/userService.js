@@ -32,7 +32,7 @@ const emailVerification = async (email, verificationCode) => {
 
 
 const registerUser = async (username, password, email) => {
-    const verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit code
+    const verificationCode = Math.floor(10000000 + Math.random() * 90000000); // Generate 6-digit code
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ username, password: hashedPassword, email, verificationCode });
     emailVerification(email, verificationCode); 
@@ -68,8 +68,8 @@ const loginUser = async (email, password) => {
     if (!isValidPassword) {
         throw new Error('Invalid password');
     }
-    const token = jwt.sign({ email: user.email }, 'secret_key', { expiresIn: '1h' });
-    return { token };
+    const token = jwt.sign({ email: user.email }, 'secret_key', { expiresIn: '24h' });
+    return token ;
 };
 
 

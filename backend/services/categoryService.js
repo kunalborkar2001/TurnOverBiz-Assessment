@@ -3,22 +3,78 @@
 const Category = require('../models/Category');
 const UserCategory = require('../models/UserCategory');
 
-const getAllCategoriesWithSelections = async (userId) => {
-  return Category.findAll({
-    include: [
-      {
-        model: User,
-        where: { id: userId },
-        attributes: [],
-        through: { attributes: [] },
-      },
-    ],
-  });
+// const getAllCategoriesWithSelections = async (userEmail) => {
+//   try {
+//     // Query categories with the specified userEmail
+//     const categories = await UserCategory.findAll({
+//       where: { userEmail: userEmail },
+//     });
+
+//     return categories;
+//   } catch (error) {
+//     console.error('Error retrieving categories with selections:', error);
+//     throw new Error('Failed to retrieve categories with selections');
+//   }
+// };
+
+
+// const selectCategories = async (userEmail, categories) => {
+//   try {
+//     // Delete existing user categories for the specified user
+//     await UserCategory.destroy({ where: { userEmail } });
+
+//     // Create new user categories for the specified categories
+//     const userCategoryRecords = categories.map(categoryName => ({
+//       userEmail,
+//       category: categoryName
+//     }));
+//     await UserCategory.bulkCreate(userCategoryRecords);
+
+//     return true; // Indicate success
+//   } catch (error) {
+//     console.error('Error selecting categories:', error);
+//     throw new Error('Failed to select categories');
+//   }
+// };
+
+
+const getAllCategoriesWithSelections = async (userEmail) => {
+  try {
+    // Query categories with the specified userEmail
+    const categories = await UserCategory.findAll({
+      where: { userEmail: userEmail },
+    });
+
+    // Extract category names from the retrieved categories
+    const categoryNames = categories.map(category => category.category);
+
+    return categoryNames;
+  } catch (error) {
+    console.error('Error retrieving categories with selections:', error);
+    throw new Error('Failed to retrieve categories with selections');
+  }
 };
 
-const selectCategories = async (userId, categoryIds) => {
-  await UserCategory.destroy({ where: { userId } });
-  await UserCategory.bulkCreate(categoryIds.map(categoryId => ({ userId, categoryId })));
+const selectCategories = async (userEmail, categories) => {
+  try {
+    // Delete existing user categories for the specified user
+    await UserCategory.destroy({ where: { userEmail } });
+
+    // Create new user category entry for each category
+    const userCategoryRecords = categories.map(categoryName => ({
+      userEmail,
+      category: categoryName
+    }));
+    await UserCategory.bulkCreate(userCategoryRecords);
+
+    return true; // Indicate success
+  } catch (error) {
+    console.error('Error selecting categories:', error);
+    throw new Error('Failed to select categories');
+  }
 };
+
+
+
 
 module.exports = { getAllCategoriesWithSelections, selectCategories };
