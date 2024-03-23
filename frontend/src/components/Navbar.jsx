@@ -1,13 +1,15 @@
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Link from 'next/link';
 
 const Navbar = () => {
     return (
         <>
+
             <div className='h-[100px] border flex justify-between items-center px-5 flex-wrap relative'>
                 <div>
-                    <h1 className='font-bold text-[1.6rem]'>ECOMMERCE</h1>
+                    <Link href="/LoginPage"> <h1 className='font-bold text-[1.6rem]'>ECOMMERCE</h1></Link>
                 </div>
                 <div className='hidden sm:block'>
                     <ul className='flex gap-4'>
@@ -19,7 +21,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className='flex mx-2'>
-                    
+
                     <p className='px-2'>
                         <SearchIcon />
                     </p>
